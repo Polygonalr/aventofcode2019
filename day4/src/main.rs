@@ -9,11 +9,22 @@ fn main() {
         if i > n {
             break;
         }
+
         let s = i.to_string();
         let mut previous_digit = s.chars().next().unwrap();
+
+        // Need to count the digits for each password for part 2
+        let mut digit_count = Vec::new();
+        for _x in 0..10 {
+            digit_count.push(0);
+        }
+        digit_count[previous_digit as usize - 48] += 1;
+
         let mut dup_criteria = false;
+
         for (x, current_digit) in s.chars().enumerate() {
             if x == 0 {continue;}
+            digit_count[current_digit as usize - 48] += 1;
             if previous_digit as i8 > current_digit as i8 {
                 // Replace current digit and all subsequent digits with previous digit
                 let new_digit = previous_digit as i8;
@@ -33,9 +44,17 @@ fn main() {
             }
             previous_digit = current_digit;
         }
-        if dup_criteria {   
-            counter += 1;
-            println!("{}",i);
+        if dup_criteria {
+            let mut have_double:bool = false;
+            for x in digit_count{
+                if x == 2 {
+                    have_double = true;
+                }
+            }
+            if have_double {
+                counter += 1;
+                println!("{}",i);
+            }
         }
         i+=1;
     }
