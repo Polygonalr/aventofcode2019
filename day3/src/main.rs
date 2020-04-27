@@ -19,11 +19,13 @@ fn store_all_coordinates(input:Vec<String>) -> Vec<(i32, i32, i32)>{
         drop(unit_string);
         
         for _ in 0..unit{
+            // Move 1 unit and store coordinates, rinse and repeat
             current_coordinates.0 += direction.0;
             current_coordinates.1 += direction.1;
             current_coordinates.2 += 1;
             let mut to_push = true;
-            if coordinate_store.iter().any(|&i| i==current_coordinates) {
+            // Check whether coordinates are already stored
+            if coordinate_store.iter().any(|&i:&(i32,i32,i32)| i.0==current_coordinates.0 && i.1==current_coordinates.1) {
                 to_push = false;
             }
             if to_push {
@@ -35,7 +37,7 @@ fn store_all_coordinates(input:Vec<String>) -> Vec<(i32, i32, i32)>{
 }
 
 fn main() {
-    println!("RUNNING!");
+    println!("RUNNING! This will take awhile.");
     let filepath = "./input.txt";
     let (mut vec_a, mut vec_b) = (Vec::new(), Vec::new());
 
@@ -58,12 +60,19 @@ fn main() {
     }
 
     // Processing of data
+    #[allow(unused_assignments)]
     let mut matching_a = Vec::new();
+    #[allow(unused_assignments)]
     let mut matching_b = Vec::new();
+
+    // Filter both vectors to leave entries with the matching coordinates (i.e. matching x.0 and x.1)
     matching_a = vec_a.iter().filter(|k| vec_b.iter().any(|l| k.0 == l.0 && k.1 == l.1)).collect();
     matching_b = vec_b.iter().filter(|k| matching_a.iter().any(|l| k.0 == l.0 && k.1 == l.1)).collect();
+    // Sort both resultant vectors to ensure that matching_a[x] contains the same coordinates as matching_b[x]
     matching_a.sort_by(|a, b| a.0.partial_cmp(&b.0).unwrap());
     matching_b.sort_by(|a, b| a.0.partial_cmp(&b.0).unwrap());
+
+    // Iterate through the vectors to calculate distances and lengths
     println!("Listing all matching coordinates between the two vecs...");
     let mut intersection_distances = Vec::new();
     let mut intersection_wire_lengths = Vec::new();
@@ -73,6 +82,7 @@ fn main() {
         intersection_wire_lengths.push(x.2+matching_b[i].2)
     }
 
+    // Iterate through both intersection vectors to find minimum value
     let mut min_value = intersection_distances[0];
     for x in intersection_distances {
         if x <= min_value {
