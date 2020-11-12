@@ -1,7 +1,5 @@
-# Advent of Code 2019 - Rust
+# Advent of Code 2019
 
-Advent of Code done in Rust.
+Days 1-5 were done while being quarantined (due to COVID-19), to learn Rust and at the same time practise competitive programming. Day 6 (and probably onwards) was done later in Python due to how tedious Rust can be for competitive programming.
 
-Days 1-5 were done while being quarantined (due to COVID-19), to learn Rust and at the same time practise competitive programming. Day 6 onwards pending.
-
-Code found here strive for efficiency and readability whenever possible. Though, you still may encounter bad rookie practices in the code because I am still really new to Rust while doing these exercises.
+Code found here strive for efficiency and readability whenever possible.
